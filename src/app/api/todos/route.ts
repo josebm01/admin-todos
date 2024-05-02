@@ -54,3 +54,15 @@ export async function POST( request: Request ) {
     }
 
 }
+
+
+
+// eliminar tareas completadas
+export async function DELETE( request: Request ){
+    try {
+        await prisma.todo.deleteMany({ where: { complete: true }})
+        return NextResponse.json('Borrados')
+    } catch (error) {
+         return NextResponse.json( error, { status: 400 })
+    }
+} 
