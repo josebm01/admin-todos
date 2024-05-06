@@ -39,14 +39,18 @@ npx prisma init
     * migración por cada modificación de tablas```npx prisma generate```
 7. Ejecutar el endpoint seed (localhost:3000/api/seed) para crear los datos de la base de datos local
 
+8. Ejecutar el siguiente comando para generar AUTH_SECRET 
+```
+npx auth secret
+```
+
 
 2. Production 
 
-```
+
 ...
-```
+
 
 3. Stage 
-```
+
 ...
-```
