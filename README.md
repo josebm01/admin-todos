@@ -44,6 +44,12 @@ npx prisma init
 npx auth secret
 ```
 
+## Nota: credenciales por defecto del seed
+__usuario:__ test@gmail.com
+__password:__ 123456
+
+
+
 
 2. Production 
 

@@ -5,7 +5,9 @@ import GoogleProvider from "next-auth/providers/google";
 //? Adaptador
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
- 
+import CredentialsProvider from "next-auth/providers/credentials";
+import { signInEmailPassword } from "@/auth/actions/auth-actions";
+
 
 const prisma = new PrismaClient()
 
@@ -16,8 +18,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ''
+    }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Correo Electrónico", type: "email", placeholder: "usuario@gmail.com" },
+        password: { label: "Contraseña", type: "password", placeholder: "******" }
+      },
+      async authorize(credentials, req) {
+
+        // ! - valores que siempre deben ir 
+        const user = await signInEmailPassword( credentials!.email, credentials!.password )
+  
+        if (user) return user
+        
+        // si no existe el usuario
+        return null
+      }
     })
   ],
+
+  // se ejecutan de manera secuencial, haciendo dependiente el siguiente del primero en su resultado
   session: {
     strategy: 'jwt'
   },

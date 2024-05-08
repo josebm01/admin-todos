@@ -19,6 +19,10 @@ model Todo {
   complete        Boolean     @default( false )
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+
+  //! relación con el usuario
+  user            User        @relation( fields: [userId], references: [id] )
+  userId          String
 }
 
 
@@ -56,6 +60,7 @@ model Session {
 model User {
   id            String    @id @default(uuid())
   name          String?
+  password      String?
   roles         String[]  @default(["client"])
   isActive      Boolean   @default(true)
   email         String?   @unique
@@ -64,8 +69,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   
-
-
+  //! relación de las tareas con el usuario
+  todos         Todo[]
 
 
   @@map("users")
